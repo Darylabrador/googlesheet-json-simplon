@@ -5,7 +5,7 @@ let etudiant = document.querySelector('#simplon');
 
 function getDataFromGoogleSheetAPI(){
 
-    // get json 
+    // On récupère le JSON
     method = "GET";
     req.open(method, url);
     req.responseType = "json";
@@ -56,19 +56,19 @@ function getDataFromGoogleSheetAPI(){
 
             // Pour la création du body du tableau
             for (let j = 0; j < tableauData.length; j++){
-            
-                // On crée la ligne
-                let tr = document.createElement('tr');
 
-                for (let l = 0; l < maxColonne; l++) {
-                    let td = document.createElement('td');
-                    td.innerHTML = tableauData[l].content.$t;
-                    tr.appendChild(td);
-                }
-
-                // Passage à la ligne quand la colonne est à 1
+                // On crée la ligne et à chaque fois que la colonne est 1, on crée
                 if (tableauData[j].gs$cell.col == 1){
 
+                    // Pour la valeur de la première colonne
+                    var tr = document.createElement('tr');
+                    tr.innerHTML += tableauData[j].content.$t;      
+                }else{
+
+                    // Pour la valeur des autres colonnes puis on fini par l'ajouter au html
+                    let td = document.createElement('td');
+                    td.innerHTML = tableauData[j].content.$t;
+                    tr.appendChild(td);
                     body.appendChild(tr);
                 }
             }
