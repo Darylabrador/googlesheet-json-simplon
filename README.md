@@ -10,4 +10,5 @@ Faire en sorte qu'un ajout de colonne dans le Sheet soit répercuté dans la pag
 Mettre en place les fonctions de filtres de données avant de l'affichage dans la page.
 
 Les données du google sheet: 
+
 Nom, Prénom, Promotion, Langage de programmation.
