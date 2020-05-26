@@ -50,7 +50,7 @@ function getDataFromGoogleSheetAPI(){
             // Pour la création du header du tableau
             for (let k = 0; k < tableauEntete.length; k++) {
                 let td = document.createElement('td');
-                td.innerHTML += tableauEntete[k].content.$t;
+                td.innerHTML += tableauEntete[k].content.$t.toUpperCase();
                 head.appendChild(td);
             }
 
