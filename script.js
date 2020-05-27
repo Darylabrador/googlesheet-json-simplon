@@ -29,8 +29,9 @@ function getDataFromGoogleSheetAPI(){
             let reponse = req.response;
             let infos = reponse.feed.entry;
 
-            // Condition pour traité si le tableau est vide 
+
             if(infos != undefined){
+                
                 // les tableaux pour les entetes et les datas
                 let tableauData = [];
                 let tableauEntete = [];
@@ -44,41 +45,61 @@ function getDataFromGoogleSheetAPI(){
                     }
                 });
 
-                // Pour la création du header du tableau
-                for (let k = 0; k < tableauEntete.length; k++) {
+                if(tableauEntete.length != 0){
 
-                    // variable avec condition ternaire pour verifier si la cellule n'est pas vide
-                    var headerInsert = tableauEntete[k].content.$t.toUpperCase();
+                    // Pour la création du header du tableau
+                    for (let k = 0; k < tableauEntete.length; k++) {
 
-                    let td = document.createElement('td');
-                    td.innerHTML += htmlEntities(headerInsert);
-                    head.appendChild(td);
-                }
+                        // variable avec les données du header du tableau
+                        var headerInsert = tableauEntete[k].content.$t.toUpperCase();
 
-                // Pour la création du body du tableau
-                for (let j = 0; j < tableauData.length; j++) {
-
-                    // variable avec condition ternaire pour verifier si la cellule n'est pas vide
-                    var dataInsert = tableauData[j].content.$t;
-
-                    // On crée la ligne et à chaque fois que la colonne est 1, on crée
-                    if (tableauData[j].gs$cell.col == 1) {
-
-                        // Pour la valeur de la première colonne
-                        var tr = document.createElement('tr');
-                        tr.innerHTML += htmlEntities(dataInsert);
-
-                    } else {
-
-                        // Pour la valeur des autres colonnes puis on fini par l'ajouter au html
+                        // Création de notre entete
                         let td = document.createElement('td');
-                        td.innerHTML = htmlEntities(dataInsert);
-                        tr.appendChild(td);
-                        body.appendChild(tr);
+                        td.innerHTML += htmlEntities(headerInsert);
+                        head.appendChild(td);
                     }
+                }else{
+
+                    // Gestion du cas où il n'y a pas d'information dans le header
+                    let divError = document.createElement('div');
+                    divError.innerHTML = "Aucune donnée n'a été trouvée pour le header de notre tableau !";
+                    head.appendChild(divError);
                 }
+               
+                if(tableauData.length != 0){
+
+                    // Pour la création du body du tableau
+                    for (let j = 0; j < tableauData.length; j++) {
+
+                        // variable avec les données du body du tableau
+                        var dataInsert = tableauData[j].content.$t;
+
+                        // On crée la ligne et à chaque fois que la colonne est 1, on crée
+                        if (tableauData[j].gs$cell.col == 1) {
+
+                            // Pour la valeur de la première colonne
+                            var tr = document.createElement('tr');
+                            tr.innerHTML += htmlEntities(dataInsert);
+
+                        } else {
+
+                            // Pour la valeur des autres colonnes puis on fini par l'ajouter au html
+                            let td = document.createElement('td');
+                            td.innerHTML = htmlEntities(dataInsert);
+                            tr.appendChild(td);
+                            body.appendChild(tr);
+                        }
+                    }
+                }else{
+
+                    // Gestion du cas où il n'y a pas d'information dans le body
+                    let divError = document.createElement('div');
+                    divError.innerHTML = "Aucune donnée n'a été trouvée !";
+                    body.appendChild(divError);
+                }
+               
             }else{
-                alert('Le tableau est vide !');
+                alert('Notre source de donnée est vide !');
             }
             
         }else{
