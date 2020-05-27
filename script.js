@@ -29,7 +29,6 @@ function getDataFromGoogleSheetAPI(){
             let reponse = req.response;
             let infos = reponse.feed.entry;
 
-
             if(infos != undefined){
                 
                 // les tableaux pour les entetes et les datas
@@ -56,8 +55,15 @@ function getDataFromGoogleSheetAPI(){
                         // Création de notre entete
                         let td = document.createElement('td');
                         td.innerHTML += htmlEntities(headerInsert);
+
+                        // Ajout du style
+                        td.style.textAlign = "center";
+                        td.style.fontWeight = "bold";
+
+                        // Ajout au html
                         head.appendChild(td);
                     }
+
                 }else{
 
                     // Gestion du cas où il n'y a pas d'information dans le header
@@ -86,10 +92,16 @@ function getDataFromGoogleSheetAPI(){
                             // Pour la valeur des autres colonnes puis on fini par l'ajouter au html
                             let td = document.createElement('td');
                             td.innerHTML = htmlEntities(dataInsert);
+
+                            // Ajout du style
+                            td.style.textAlign = "center";
+
+                            // Ajout au html
                             tr.appendChild(td);
                             body.appendChild(tr);
                         }
                     }
+
                 }else{
 
                     // Gestion du cas où il n'y a pas d'information dans le body
