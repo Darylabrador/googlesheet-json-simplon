@@ -8,7 +8,7 @@ let req = new XMLHttpRequest();
 let url = "https://spreadsheets.google.com/feeds/cells/1ffY6Q5YdF53VcEMcFxnvGcie3bbKx8WzMKr0R9-RWi8/1/public/full?alt=json" ;
 let etudiant = document.querySelector('#simplon');
 
-// Fonction de sécurité 
+// Fonction de sécurité pour bloqué au minima l'injection de code
 function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -80,7 +80,7 @@ function getDataFromGoogleSheetAPI(){
                         // variable avec les données du body du tableau
                         var dataInsert = tableauData[j].content.$t;
 
-                        // On crée la ligne et à chaque fois que la colonne est 1, on crée
+                        // On crée la ligne à chaque fois que la colonne est 1
                         if (tableauData[j].gs$cell.col == 1) {
 
                             // Pour la valeur de la première colonne
@@ -89,7 +89,7 @@ function getDataFromGoogleSheetAPI(){
 
                         } else {
 
-                            // Pour la valeur des autres colonnes puis on fini par l'ajouter au html
+                            // On ajoute la valeur des autres colonnes
                             let td = document.createElement('td');
                             td.innerHTML = htmlEntities(dataInsert);
 
