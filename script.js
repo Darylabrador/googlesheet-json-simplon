@@ -60,6 +60,11 @@ function getDataFromGoogleSheetAPI(){
                         td.style.textAlign = "center";
                         td.style.fontWeight = "bold";
 
+                        // Pour récupérer l'index de la colonne photo
+                        if (tableauEntete[k].content.$t == "photo"){
+                            var idColonnePhoto = tableauEntete[k].gs$cell.col;
+                        }
+
                         // Ajout au html
                         head.appendChild(td);
                     }
@@ -85,16 +90,27 @@ function getDataFromGoogleSheetAPI(){
 
                             // Pour la valeur de la première colonne
                             var tr = document.createElement('tr');
-                            tr.innerHTML += htmlEntities(dataInsert);
+
+                            // Dans le cas si l'image dans la première colonne
+                            if (tableauData[j].gs$cell.col == idColonnePhoto){
+                                tr.innerHTML += `<img src="data:image/jpeg;base64,${dataInsert}">`;
+                            }else{
+                                tr.innerHTML += htmlEntities(dataInsert);
+                            }
 
                         } else {
 
                             // On ajoute la valeur des autres colonnes
-                            let td = document.createElement('td');
+                            var td = document.createElement('td');
                             td.innerHTML = htmlEntities(dataInsert);
 
                             // Ajout du style
                             td.style.textAlign = "center";
+
+                            // Si on est à la colonne image
+                            if (tableauData[j].gs$cell.col == idColonnePhoto) {
+                                td.innerHTML = `<img src="data:image/jpeg;base64,${dataInsert}">`;
+                            }
 
                             // Ajout au html
                             tr.appendChild(td);
